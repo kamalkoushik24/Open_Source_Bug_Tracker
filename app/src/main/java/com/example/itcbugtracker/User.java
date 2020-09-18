@@ -2,6 +2,7 @@ package com.example.itcbugtracker;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "users")
@@ -9,7 +10,8 @@ public class User {
     @PrimaryKey(autoGenerate = true)
     int id;
 
-    @ColumnInfo(name = "username")
+
+    @ColumnInfo(name = "username" )
     String usrname;
 
     @ColumnInfo(name = "password")

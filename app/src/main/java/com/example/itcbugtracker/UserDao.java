@@ -13,5 +13,8 @@ public interface UserDao {
     @Query("SELECT * FROM users WHERE username= :username and password = :password")
     User login(String username, String password);
 
+    @Query("SELECT * FROM users where username = :username")
+    User checkuser(String username);
+
 
 }
