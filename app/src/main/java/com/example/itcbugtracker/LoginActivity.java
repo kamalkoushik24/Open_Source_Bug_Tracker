@@ -21,6 +21,8 @@ public class LoginActivity extends AppCompatActivity {
         final EditText password = findViewById(R.id.editTextNumberPassword);
         final Button login = findViewById(R.id.button);
         final Button regbutton = findViewById(R.id.regbuttn);
+        username.setText("");
+        password.setText("");
         ImageView imageView = findViewById(R.id.imageView);
 
         login.setOnClickListener(new View.OnClickListener() {
