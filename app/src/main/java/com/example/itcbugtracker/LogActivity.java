@@ -50,7 +50,8 @@ public class LogActivity extends AppCompatActivity {
         archivebtn = findViewById(R.id.archive);
         String desc1 = getIntent().getStringExtra("desc");
         desc.setText(desc1);
-        String cat1 = getIntent().getStringExtra("category1");
+        String pdesc = getIntent().getStringExtra("pDetails");
+        pDetails.setText((pdesc));
 
 
         ArrayAdapter<CharSequence> adapter1 = ArrayAdapter.createFromResource(this,
