@@ -30,7 +30,7 @@ public class LogActivity extends AppCompatActivity {
         FloatingActionButton delbtn;
         LogDatabase logDatabase;
 
-
+//        todo
 
         delbtn = findViewById(R.id.log_delete);
         delbtn.setOnClickListener(new View.OnClickListener() {

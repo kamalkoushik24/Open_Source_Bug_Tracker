@@ -1,3 +1,27 @@
 <resources>
     <string name="app_name">ITC Bug Tracker</string>
+
+    <string-array name="app">
+        <item>app1</item>
+        <item>app2</item>
+        <item>app3</item>
+    </string-array>
+
+    <string-array name="cat1">
+        <item>a1c1</item>
+        <item>a1c2</item>
+        <item>a1c3</item>
+    </string-array>
+
+    <string-array name="cat2">
+        <item>a2c1</item>
+        <item>a2c2</item>
+        <item>a2c3</item>
+    </string-array>
+
+    <string-array name="cat3">
+        <item>a3c1</item>
+        <item>a3c2</item>
+        <item>a3c3</item>
+    </string-array>
 </resources>
