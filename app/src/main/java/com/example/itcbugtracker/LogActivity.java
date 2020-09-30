@@ -172,7 +172,7 @@ public class LogActivity extends AppCompatActivity {
                 AlertDialog del = new AlertDialog.Builder(getApplicationContext())
                         .setTitle("Archive")
                         .setMessage("Are you Sure you want to archive this log?" +
-                                "Your Log cannot be edited again!")
+                                "\nYour Log cannot be edited again!")
                         .setIcon(getResources().getDrawable(R.drawable.ic_baseline_delete_forever_24))
                         .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
                             @Override
