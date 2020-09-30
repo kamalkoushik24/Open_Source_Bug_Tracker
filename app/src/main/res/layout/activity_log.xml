@@ -25,7 +25,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <Spinner
-        android:id="@+id/spinner2"
+        android:id="@+id/app"
         android:layout_width="206dp"
         android:layout_height="38dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -36,7 +36,7 @@
         app:layout_constraintVertical_bias="0.216" />
 
     <Spinner
-        android:id="@+id/spinner"
+        android:id="@+id/cat"
         android:layout_width="206dp"
         android:layout_height="38dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -54,7 +54,7 @@
         android:gravity="center"
         android:text="Application"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/spinner"
+        app:layout_constraintEnd_toStartOf="@+id/cat"
         app:layout_constraintHorizontal_bias="0.363"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -87,7 +87,7 @@
         app:layout_constraintVertical_bias="0.294" />
 
     <EditText
-        android:id="@+id/editTextTextMultiLine"
+        android:id="@+id/pDetails"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
@@ -100,7 +100,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/floatingActionButton"
+        android:id="@+id/savebtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:clickable="true"
@@ -113,7 +113,7 @@
         app:srcCompat="@drawable/ic_baseline_save_24" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/floatingActionButton2"
+        android:id="@+id/archivebtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:clickable="true"

@@ -14,7 +14,7 @@ public interface LogDao {
     List<Log> getAllLogs();
 
     @Query("UPDATE Logs SET `desc` = :desc, `category1` = :category1, `category2` = :category2, `pDetails` = :pDetails WHERE id = :id")
-    void save(String desc, String category1, String category2, String pDetails, int id);
+    void save(String desc, int category1, int category2, String pDetails, int id);
 
     @Query("DELETE FROM Logs WHERE id = :id")
     void delete(int id);
