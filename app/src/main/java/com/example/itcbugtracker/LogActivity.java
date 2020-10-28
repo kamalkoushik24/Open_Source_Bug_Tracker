@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Looper;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -16,6 +17,12 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
 
 public class LogActivity extends AppCompatActivity {
+    int id = getIntent().getIntExtra("id", 0);
+    int pos1 = getIntent().getIntExtra("category1", 0);
+    int pos2 = getIntent().getIntExtra("category2", 0);
+    boolean flag = getIntent().getBooleanExtra("archived", false);
+    String content = getIntent().getStringExtra("desc");
+    String details = getIntent().getStringExtra("pDetails");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +42,15 @@ public class LogActivity extends AppCompatActivity {
         LogDatabase logDatabase;
 
 
+        if (flag) {
+            spinner1.setEnabled(false);
+            spinner2.setEnabled(false);
+            desc.setEnabled(false);
+            pDetails.setEnabled(false);
+
+        }
+
+
         final Intent intent = new Intent(getApplicationContext(), MainActivity.class);
         final int id = getIntent().getIntExtra("id", 0);
 
@@ -42,9 +58,9 @@ public class LogActivity extends AppCompatActivity {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                int pos1 = getIntent().getIntExtra("pos1", 0);
-                int pos2 = getIntent().getIntExtra("pos2", 0);
-                String description = getIntent().getStringExtra("desc");
+                int pos1 = getIntent().getIntExtra("category1", 0);
+                int pos2 = getIntent().getIntExtra("category2", 0);
+                String content = getIntent().getStringExtra("desc");
                 String details = getIntent().getStringExtra("pDetails");
                 TextInputEditText desc;
                 EditText pDetails;
@@ -54,9 +70,7 @@ public class LogActivity extends AppCompatActivity {
                 spinner2 = findViewById(R.id.cat);
                 desc = findViewById(R.id.desc);
                 pDetails = findViewById(R.id.pDetails);
-                desc.setText(description);
-                spinner1.setSelection(pos1);
-                spinner2.setSelection(pos2);
+                desc.setText(content);
                 pDetails.setText(details);
                 ArrayAdapter<CharSequence> appAdapter = ArrayAdapter.createFromResource(getApplicationContext()
                         ,R.array.app, android.R.layout.simple_spinner_item);
@@ -83,6 +97,8 @@ public class LogActivity extends AppCompatActivity {
 
                     spinner2.setAdapter(cat3);
                 }
+                spinner1.setSelection(pos1, true);
+                spinner2.setSelection(pos2, true);
 
             }
         }).start();
@@ -98,30 +114,12 @@ public class LogActivity extends AppCompatActivity {
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        final int id = getIntent().getIntExtra("id", 0);
-                        final Intent intent1 = new Intent(getApplicationContext(), MainActivity.class);
+                        int id = getIntent().getIntExtra("id", 0);
+                        Intent intent1 = new Intent(getApplicationContext(), MainActivity.class);
 
-                        AlertDialog del = new AlertDialog.Builder(getApplicationContext())
-                                .setTitle("Delete")
-                                .setMessage("Are you Sure you want to delete this log?" +
-                                        "Your Log cannot be retrieved again")
-                                .setIcon(getResources().getDrawable(R.drawable.ic_baseline_delete_forever_24))
-                                .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        dialog.dismiss();
-                                        MainActivity.logDatabase.logDao().delete(id);
-                                        startActivity(intent1);
-                                        Toast.makeText(getApplicationContext(), "Log Deleted", Toast.LENGTH_SHORT).show();
-                                    }
-                                })
-                                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        dialog.dismiss();
-                                    }
-                                }).create();
-                        del.show();
+                        MainActivity.logDatabase.logDao().delete(id);
+                        startActivity(intent1);
+                        Toast.makeText(getApplicationContext(), "Log Deleted", Toast.LENGTH_SHORT).show();
 
                     }
                 }).start();
@@ -134,28 +132,38 @@ public class LogActivity extends AppCompatActivity {
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
+
                         TextInputEditText desc;
                         EditText pDetails;
                         Spinner spinner1 = findViewById(R.id.app);
                         Spinner spinner2 = findViewById(R.id.cat);
-                        final int id = getIntent().getIntExtra("id", 0);
+                        int id = getIntent().getIntExtra("id", 0);
+                        boolean archived = intent.getBooleanExtra("archived", false);
                         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
 
                         desc = findViewById(R.id.desc);
                         pDetails = findViewById(R.id.pDetails);
                         int pos1 = spinner1.getSelectedItemPosition();
                         int pos2 = spinner2.getSelectedItemPosition();
+                        String details = pDetails.getText().toString();
+                        String description = desc.getText().toString();
+                        Log log = new Log();
+                        log.setCategory1(pos1);
+                        log.setCategory2(pos2);
+                        log.setArchived(archived);
+                        log.setDesc(details);
+                        log.setpDetails(description);
+
 
                         if (desc.getText().toString().isEmpty() || pDetails.getText().toString().isEmpty()){
-                            Toast.makeText(getApplicationContext(), "Please enter all the details", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), "Enter All details", Toast.LENGTH_LONG).show();
+
                         }
                         else{
-                            MainActivity.logDatabase.logDao().save(desc.getText().toString(),
-                                    pos1, pos2,
-                                    pDetails.getText().toString()
-                                    , id);
+                            MainActivity.logDatabase.logDao().save(log);
                             startActivity(intent);
-                            Toast.makeText(getApplicationContext(), " Your log has been recorded", Toast.LENGTH_SHORT).show();
+                            Toast toast = Toast.makeText(getApplicationContext(), " Your log has been recorded", Toast.LENGTH_SHORT);
+                            toast.show();
 
                         }
 
@@ -169,12 +177,12 @@ public class LogActivity extends AppCompatActivity {
         archivebtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AlertDialog del = new AlertDialog.Builder(getApplicationContext())
+                new AlertDialog.Builder(getApplicationContext())
                         .setTitle("Archive")
                         .setMessage("Are you Sure you want to archive this log?" +
                                 "\nYour Log cannot be edited again!")
                         .setIcon(getResources().getDrawable(R.drawable.ic_baseline_delete_forever_24))
-                        .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                        .setPositiveButton("Archive", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 spinner1.setEnabled(false);
@@ -191,8 +199,10 @@ public class LogActivity extends AppCompatActivity {
                             public void onClick(DialogInterface dialog, int which) {
                                 dialog.dismiss();
                             }
-                        }).create();
-                del.show();
+                        }).create().show();
+
+                flag = true;
+
 
             }
         });

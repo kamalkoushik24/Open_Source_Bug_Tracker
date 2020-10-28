@@ -13,6 +13,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.itcbugtracker.MainActivity.logDatabase;
+
 public class LogAdapter extends RecyclerView.Adapter<LogAdapter.LogViewHolder> {
 
     public static class LogViewHolder extends RecyclerView.ViewHolder{
@@ -30,6 +32,10 @@ public class LogAdapter extends RecyclerView.Adapter<LogAdapter.LogViewHolder> {
                     Intent intent = new Intent(view.getContext(), LogActivity.class);
                     intent.putExtra("id", current.id);
                     intent.putExtra("desc", current.desc);
+                    intent.putExtra("category1", current.category1);
+                    intent.putExtra("category2", current.category2);
+                    intent.putExtra("pDetails", current.pDetails);
+                    intent.putExtra("archived", current.archived);
                     view.getContext().startActivity(intent);
                 }
             });
@@ -60,7 +66,7 @@ public class LogAdapter extends RecyclerView.Adapter<LogAdapter.LogViewHolder> {
         return logs.size();
     }
     public void reload(){
-        logs = MainActivity.logDatabase.logDao().getAllLogs();
+        logs = logDatabase.logDao().getAllLogs();
         notifyDataSetChanged();
     }
 
